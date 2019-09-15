@@ -27,7 +27,7 @@ server.listen(port, () => {
   console.log(`Listening for events on ${server.address().port}`);
 });
 
-app.on('message', (event) => {
+slackEvents.on('message', (event) => {
   console.log('this is a message!');
   console.log(event);
 });
