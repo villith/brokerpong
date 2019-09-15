@@ -1,24 +1,30 @@
-import { AddressInfo } from 'net';
+import bodyParser from 'body-parser';
 import { createEventAdapter } from '@slack/events-api';
-import dotenv from 'dotenv';
-
-dotenv.config();
+import { createServer } from 'http';
+import express from 'express';
 
 const slackSigningSecret = process.env.SLACK_SIGNING_SECRET!;
-console.log(slackSigningSecret);
+const port = process.env.PORT || 3000;
 const slackEvents = createEventAdapter(slackSigningSecret);
 
-const port = parseInt(process.env.PORT!, 10) || 8005;
+// Create an express application
+const app = express();
 
-// @ts-ignore
-slackEvents.on('message', (event) => {
-  console.log(`Received a message event: user ${event.user} in channel ${event.channel} says ${event.text}`);
+// Plug the adapter in as a middleware
+app.use('/my/path', slackEvents.requestListener());
+
+// Example: If you're using a body parser, always put it after the event adapter in the middleware stack
+app.use(bodyParser());
+
+// Initialize a server for the express app - you can skip this and the rest if you prefer to use app.listen()
+const server = createServer(app);
+server.listen(port, () => {
+  // Log a message when the server is ready
+  // @ts-ignore
+  console.log(`Listening for events on ${server.address().port}`);
 });
 
-(async () => {
-  const server = await slackEvents.start(port);
-
-  const serverPort = ((server.address()) as AddressInfo).port;
-  console.log(`Listening for events on ${serverPort}`);
-})();
-
+app.on('message', (event) => {
+  console.log('this is a message!');
+  console.log(event);
+});
