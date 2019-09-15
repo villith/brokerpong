@@ -1,10 +1,8 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
     "outDir": "./lib",
-    "module": "esnext",
-    "target": "es5",
-    "lib": ["es7"],
+    "module": "commonjs",
+    "target": "es6",
     "sourceMap": true,
     "allowJs": true,
     "moduleResolution": "node",
@@ -18,7 +16,8 @@
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
   },
+  "lib": ["es2015"],
   "include": [
-    "src"
+    "src/**/*"
   ]
 }

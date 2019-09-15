@@ -1,4 +1,4 @@
-import { Request, Response } from "express-serve-static-core";
+import { Request, Response } from "express";
 
 const helloHttp = (req: Request, res: Response) => res.send("hello world");
 
