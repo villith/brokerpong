@@ -1,7 +1,10 @@
 import bodyParser from 'body-parser';
 import { createEventAdapter } from '@slack/events-api';
 import { createServer } from 'http';
+import dotenv from 'dotenv';
 import express from 'express';
+
+dotenv.config();
 
 const slackSigningSecret = process.env.SLACK_SIGNING_SECRET!;
 const port = process.env.PORT || 3000;
