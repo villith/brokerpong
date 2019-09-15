@@ -14,7 +14,7 @@ const slackEvents = createEventAdapter(slackSigningSecret);
 const app = express();
 
 // Plug the adapter in as a middleware
-app.use('/my/path', slackEvents.requestListener());
+app.use('/', slackEvents.requestListener());
 
 // Example: If you're using a body parser, always put it after the event adapter in the middleware stack
 app.use(bodyParser());
