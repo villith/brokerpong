@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "connection": "file:../connection",
-    "models": "file:../models"
+    "connection": "file:connection",
+    "models": "file:models"
   }
 }
