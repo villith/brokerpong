@@ -1,10 +1,11 @@
-import PlayerModel from './models/Player';
+import PlayerModel from '../../functions/src/models/Player';
 import { WebClient } from '@slack/web-api';
 import bodyParser from 'body-parser';
 import { createEventAdapter } from '@slack/events-api';
 import { createServer } from 'http';
 import dotenv from 'dotenv';
 import express from 'express';
+import https from 'https';
 import mongoose from 'mongoose';
 
 dotenv.config();
@@ -69,7 +70,7 @@ slackEvents.on('message', async (event: IMessageEvent) => {
 
   if (!command) { return `${textCommand} is not a command. Type !commands for a command list.`; }
 
-  const player = await PlayerModel.findOne({ name: 'Scott' });
+  await https.get('')
   if (player) {
     const result = await web.chat.postMessage({
       text: `This is their nickname: ${player.nickname}`,

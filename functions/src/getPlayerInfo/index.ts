@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import PlayerModel from '../models/Player';
+import { PlayerModel } from 'models';
 import connect from '../connection';
 
 (async () => { await connect })();
