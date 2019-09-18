@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const pong_domain_1 = require("@team-scott/pong-domain");
-(() => __awaiter(this, void 0, void 0, function* () { yield pong_domain_1.connection; }))();
+(() => __awaiter(this, void 0, void 0, function* () { yield pong_domain_1.connection(process.env.MONGO_URL); }))();
 const getPlayerInfo = (req, res) => __awaiter(this, void 0, void 0, function* () {
     const player = yield pong_domain_1.PlayerModel.findOne({ name: 'scott' });
     return res.json(player);
