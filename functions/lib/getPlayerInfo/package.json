@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "connection": "file:connection",
-    "models": "file:models"
+    "@team-scott/pong-domain": "^0.1.5"
   }
 }
