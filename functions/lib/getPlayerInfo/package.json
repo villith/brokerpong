@@ -1,5 +1,5 @@
 {
   "dependencies": {
-    "@team-scott/pong-domain": "^0.1.5"
+    "@team-scott/pong-domain": "^0.1.6"
   }
 }
