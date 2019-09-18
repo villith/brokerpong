@@ -1,7 +1,3 @@
 {
-  "name": "bbpong-functions",
-  "scripts": {
-    "copy-configs": "cp -rf ./src/models/package.json, ./lib/models",
-    "build": "tsc && npm run copy-configs"
-  }
+  "name": "bbpong-functions"
 }

@@ -59,3 +59,8 @@ typings/
 
 # next.js build output
 .next
+
+bbpong.pem
+config.default.json
+config.json
+key.json
