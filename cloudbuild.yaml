@@ -1,6 +1,6 @@
 steps:
 - name: 'gcr.io/cloud-builders/npm'
-  args: ['run install']
+  args: ['install']
   dir: 'functions/src/getPlayerInfo'
 - name: 'gcr.io/cloud-builders/gcloud'
   args: [ 'functions', 'deploy', 'get-player-info', '--trigger-http', '--runtime', 'nodejs10', '--entry-point', 'getPlayerInfo' ]
