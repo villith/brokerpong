@@ -4,5 +4,8 @@
   },
   "dependencies": {
     "@team-scott/pong-domain": "^0.1.8"
+  },
+  "devDependencies": {
+    "typescript": "^3.6.3"
   }
 }
