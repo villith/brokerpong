@@ -1,0 +1,9 @@
+steps:
+- name: 'gcr.io/cloud-builders/npm'
+  args: ['run install']
+  dir: 'functions/src/getPlayerInfo'
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: [ 'functions', 'deploy', 'get-player-info', '--trigger-http', '--runtime', 'nodejs10', '--entry-point', 'getPlayerInfo' ]
+  dir: 'functions/src/getPlayerInfo'
+
+timeout: 1200s
