@@ -1,4 +1,6 @@
 {
+  "name": "get-player-info",
+  "version": "0.0.1",
   "scripts": {
     "postinstall": "tsc"
   },
