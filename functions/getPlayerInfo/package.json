@@ -2,7 +2,8 @@
   "name": "get-player-info",
   "version": "0.0.1",
   "scripts": {
-    "postinstall": "tsc"
+    "copy-configs": "cp -rf package.json .npmrc lib",
+    "postinstall": "tsc && npm run copy-configs"
   },
   "dependencies": {
     "@team-scott/pong-domain": "^0.1.9",

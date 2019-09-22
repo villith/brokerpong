@@ -1,0 +1,17 @@
+{
+  "name": "get-player-info",
+  "version": "0.0.1",
+  "scripts": {
+    "copy-configs": "cp -rf tsconfig.json package.json .npmrc lib",
+    "postinstall": "tsc && npm run copy-configs"
+  },
+  "dependencies": {
+    "@team-scott/pong-domain": "^0.1.9",
+    "typescript": "^3.6.3"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.1",
+    "@types/node": "^12.7.5"
+  },
+  "main": "index.js"
+}
