@@ -1,6 +1,6 @@
 steps:
 - name: 'gcr.io/cloud-builders/npm'
-  args: ['run-script build', '--unsafe-perm']
+  args: ['npm', 'run', 'build', '--unsafe-perm']
   dir: 'functions/getPlayerInfo'
 - name: 'gcr.io/cloud-builders/gcloud'
   args: [ 'functions', 'deploy', 'get-player-info', '--trigger-http', '--runtime', 'nodejs10', '--entry-point', 'getPlayerInfo' ]
