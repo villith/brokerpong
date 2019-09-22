@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "copy-configs": "cp -rf package.json .npmrc lib",
-    "postinstall": "tsc && npm run copy-configs"
+    "build": "tsc && npm run copy-configs"
   },
   "dependencies": {
     "@team-scott/pong-domain": "^0.1.9",
