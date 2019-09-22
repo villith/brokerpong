@@ -1,22 +1,22 @@
 steps:
 - name: 'gcr.io/cloud-builders/npm'
   args: ['install', '--unsafe-perms']
-  dir: 'functions/addPlayer'
+  dir: 'functions/changeNickname1'
 - name: 'gcr.io/cloud-builders/npm'
   args: ['run', 'compile']
-  dir: 'functions/addPlayer'
+  dir: 'functions/changeNickname'
 - name: 'gcr.io/cloud-builders/gcloud'
   args:
     - 'functions'
     - 'deploy'
-    - 'add-player'
+    - 'change-nickname'
     - '--trigger-http'
     - '--runtime'
     - 'nodejs10'
     - '--entry-point'
-    - 'addPlayer'
+    - 'changeNickname'
     - '--set-env-vars'
     - 'MONGO_URL=${_MONGO_URL}'
-  dir: 'functions/addPlayer/lib'
+  dir: 'functions/changeNickname/lib'
 
 timeout: 1200s
