@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
+    "outDir": "./lib",
     "module": "commonjs",
     "target": "es6",
     "sourceMap": true,
     "allowJs": true,
     "moduleResolution": "node",
-    "rootDir": "./src",
+    "rootDir": ".",
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
@@ -16,8 +17,7 @@
     "noUnusedLocals": true,
     "esModuleInterop": true
   },
-  "lib": ["es2015"],
-  "exclude": [
-    "node_modules"
+  "lib": [
+    "es2015"
   ]
 }

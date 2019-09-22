@@ -1,14 +1,22 @@
 steps:
 - name: 'gcr.io/cloud-builders/npm'
   args: ['install', '--unsafe-perms']
-  dir: 'functions/getPlayerInfo'
+  dir: 'functions/addPlayer'
 - name: 'gcr.io/cloud-builders/npm'
   args: ['run', 'compile']
-  dir: 'functions/getPlayerInfo'
+  dir: 'functions/addPlayer'
 - name: 'gcr.io/cloud-builders/gcloud'
-  args: [ 'functions', 'deploy', 'get-player-info', '--trigger-http', '--runtime', 'nodejs10', '--entry-point', 'getPlayerInfo' ]
-  dir: 'functions/getPlayerInfo/lib'
-  env:
-    - 'MONGO_URL=mongodb://admin:password1@ds129560.mlab.com:29560/bbpong'
+  args:
+    - 'functions'
+    - 'deploy'
+    - 'get-player-info'
+    - '--trigger-http'
+    - '--runtime'
+    - 'nodejs10'
+    - '--entry-point'
+    - 'addPlayer'
+    - '--set-env-vars'
+    - 'MONGO_URL=${_MONGO_URL}'
+  dir: 'functions/addPlayer/lib'
 
 timeout: 1200s
