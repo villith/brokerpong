@@ -9,7 +9,7 @@ steps:
   args:
     - 'functions'
     - 'deploy'
-    - 'get-player-info'
+    - 'add-player'
     - '--trigger-http'
     - '--runtime'
     - 'nodejs10'
