@@ -5,5 +5,7 @@ steps:
 - name: 'gcr.io/cloud-builders/gcloud'
   args: [ 'functions', 'deploy', 'get-player-info', '--trigger-http', '--runtime', 'nodejs10', '--entry-point', 'getPlayerInfo' ]
   dir: 'functions/getPlayerInfo/lib'
+  env:
+    - 'MONGO_URL=mongodb://admin:password1@ds129560.mlab.com:29560/bbpong'
 
 timeout: 1200s
