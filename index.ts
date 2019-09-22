@@ -20,14 +20,3 @@ app.get('/getPlayerInfo', (req, res) => {
   getPlayerInfo(req, res);
 });
 
-app.get('/testFunction', (req, res) => {
-  testFunction(req, res);
-});
-
-app.get('/testFunctionTwo', (req, res) => {
-  testFunctionTwo(req, res);
-});
-
-app.get('/testFunctionThree', (req, res) => {
-  testFunctionThree(req, res);
-});
