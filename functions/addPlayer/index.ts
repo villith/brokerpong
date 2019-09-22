@@ -5,6 +5,7 @@ import { Request, Response } from 'express';
 
 const addPlayer = async (req: Request, res: Response) => {
   try {
+    console.dir(req);
     const { body } = req;
     const { name } = body;
     const result = await PlayerModel.create({ name });
