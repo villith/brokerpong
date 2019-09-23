@@ -1,13 +1,17 @@
 import { PlayerModel, connection } from '@team-scott/pong-domain';
 import { Request, Response } from 'express';
 
+import dotenv from 'dotenv';
+
+dotenv.config();
+
 (async () => { await connection(process.env.MONGO_URL!) })();
 
 const changeNickname = async (req: Request, res: Response) => {
   try {
     const { body } = req;
     const { name, nickname } = body;
-    const result = await PlayerModel.updateOne({ name }, { nickname });
+    const result = await PlayerModel.findOneAndUpdate({ name }, { nickname }).lean();
     if (result) {
       return res.json({
         result: `${name}'s nickname has been set to ${nickname}`,

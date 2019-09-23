@@ -1,10 +1,8 @@
 import bodyParser from 'body-parser';
+import { changeNickname } from './functions/changeNickname';
 import dotenv from 'dotenv';
 import express from 'express';
 import { getPlayerInfo } from './functions/getPlayerInfo';
-import { testFunction } from './functions/testFunction';
-import { testFunctionThree } from './functions/testFunctionThree';
-import { testFunctionTwo } from './functions/testFunctionTwo';
 
 dotenv.config();
 
@@ -18,5 +16,9 @@ app.use(bodyParser.json());
 
 app.get('/getPlayerInfo', (req, res) => {
   getPlayerInfo(req, res);
+});
+
+app.post('/changeNickname', (req, res) => {
+  changeNickname(req, res);
 });
 

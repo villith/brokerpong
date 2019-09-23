@@ -24,7 +24,7 @@ const buildPackageJson = () => (JSON.stringify({
     compile: 'tsc && npm run copy-configs'
   },
   dependencies: {
-    '@team-scott/pong-domain': '^0.1.9',
+    '@team-scott/pong-domain': '0.1.14',
     'typescript': '^3.6.3'
   },
   devDependencies: {
