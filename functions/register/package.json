@@ -1,5 +1,5 @@
 {
-  "name": "add-player",
+  "name": "register",
   "version": "0.0.1",
   "scripts": {
     "copy-configs": "cp -rf package.json .npmrc lib",
