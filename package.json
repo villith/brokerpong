@@ -7,7 +7,7 @@
     "install:getPlayerInfo": "cd functions/getPlayerInfo && npm install",
     "prestart": "run-p install:*",
     "start": "ts-node index.ts",
-    "start-local": "ts-node index.ts"
+    "start-local": "SET DEBUG=* && ts-node index.ts"
   },
   "devDependencies": {
     "@types/dotenv": "^6.1.1",

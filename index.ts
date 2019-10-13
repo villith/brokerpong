@@ -3,6 +3,7 @@ import { challengePlayer } from './functions/challengePlayer';
 import { changeNickname } from './functions/changeNickname';
 import dotenv from 'dotenv';
 import express from 'express';
+import { getOngoingMatches } from './functions/getOngoingMatches';
 import { getPlayerInfo } from './functions/getPlayerInfo';
 import { register } from './functions/register';
 
@@ -18,6 +19,10 @@ app.use(bodyParser.json());
 
 app.get('/getPlayerInfo', (req, res) => {
   getPlayerInfo(req, res);
+});
+
+app.get('/getOngoingMatches', (req, res) => {
+  getOngoingMatches(req, res);
 });
 
 app.post('/register', (req, res) => {

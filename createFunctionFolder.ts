@@ -58,9 +58,9 @@ const npmRC = () => `//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}`;
 const dotEnv = () => `MONGO_URL=${MONGO_URL}`;
 
 const indexFile = () => (
-`import { Request, Response } from 'express';
+`import { IActionResponse, connection } from '@team-scott/pong-domain';
+import { Request, Response } from 'express';
 
-import { connection } from '@team-scott/pong-domain';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -68,7 +68,20 @@ dotenv.config();
 (async () => { await connection(process.env.MONGO_URL!) })();
 
 const ${FUNCTION_NAME} = async (req: Request, res: Response) => (
-  res.json({ placeholder: \`hello this is ${FUNCTION_NAME}\` })
+  const response: IActionResponse = {
+    result: 'success',
+    details: '',
+  };
+
+  try {
+    return res.json({ placeholder: \`hello this is ${FUNCTION_NAME}\` });
+  } catch (err) {
+    response.result = 'error';
+    response.error = err.message;
+    response.details = 'placeholder';
+
+    return res.json(response);
+  }  
 );
 
 export {
