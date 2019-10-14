@@ -67,7 +67,7 @@ dotenv.config();
 
 (async () => { await connection(process.env.MONGO_URL!) })();
 
-const ${FUNCTION_NAME} = async (req: Request, res: Response) => (
+const ${FUNCTION_NAME} = async (req: Request, res: Response) => {
   const response: IActionResponse = {
     result: 'success',
     details: '',
@@ -82,7 +82,7 @@ const ${FUNCTION_NAME} = async (req: Request, res: Response) => (
 
     return res.json(response);
   }  
-);
+};
 
 export {
   ${FUNCTION_NAME},

@@ -1,5 +1,6 @@
 import bodyParser from 'body-parser';
 import { challengePlayer } from './functions/challengePlayer';
+import { challengeResponse } from './functions/challengeResponse';
 import { changeNickname } from './functions/changeNickname';
 import dotenv from 'dotenv';
 import express from 'express';
@@ -38,4 +39,9 @@ app.post('/change-nickname', (req, res) => {
 app.post('/challenge-player', (req, res) => {
   console.log('[challenge-player]');
   challengePlayer(req, res);
+});
+
+app.post('/challenge-response', (req, res) => {
+  console.log('[challenge-response]');
+  challengeResponse(req, res);
 });

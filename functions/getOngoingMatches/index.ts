@@ -16,7 +16,7 @@ const getOngoingMatches = async (req: Request, res: Response) => {
   try {
     const ongoingMatches = await MatchModel.find({
       status: {
-        $in: ['in-progress', 'pending']
+        $in: ['accepted', 'pending']
       }
     })
       .populate('initiator')

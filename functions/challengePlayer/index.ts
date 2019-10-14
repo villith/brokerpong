@@ -1,4 +1,4 @@
-import { IActionResponse, MatchModel, PlayerModel, connection } from '@team-scott/pong-domain';
+import { IActionResponse, Match, MatchModel, PlayerModel, connection } from '@team-scott/pong-domain';
 import { Request, Response } from 'express';
 
 import dotenv from 'dotenv';
@@ -8,7 +8,7 @@ dotenv.config();
 (async () => { await connection(process.env.MONGO_URL!) })();
 
 const challengePlayer = async (req: Request, res: Response) => {
-  const response: IActionResponse = {
+  const response: IActionResponse<Match> = {
     result: 'success',
     details: '',
   };
@@ -18,7 +18,7 @@ const challengePlayer = async (req: Request, res: Response) => {
     const { initiator, target } = body;
     const ongoingMatches = await MatchModel.find({
       status: {
-        $in: ['in-progress', 'pending']
+        $in: ['accepted', 'pending']
       }
     });
 
@@ -42,11 +42,12 @@ const challengePlayer = async (req: Request, res: Response) => {
       if (foundInitiator.id === foundTarget.id) {
         throw new Error('You cannot challenge yourself.');
       }
-      await MatchModel.create({
+      const createdMatch = await MatchModel.create({
         initiator: foundInitiator.id,
         target: foundTarget.id,
       });
 
+      response.data = createdMatch;
       response.details = `<@${foundInitiator.slackId}> has challenged <@${foundTarget.slackId}> to a match!`;
 
       return res.json(response);
