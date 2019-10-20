@@ -42,10 +42,12 @@ const challengePlayer = async (req: Request, res: Response) => {
       if (foundInitiator.id === foundTarget.id) {
         throw new Error('You cannot challenge yourself.');
       }
-      const createdMatch = await MatchModel.create({
+      let createdMatch = await MatchModel.create({
         initiator: foundInitiator.id,
         target: foundTarget.id,
       });
+
+      createdMatch = await createdMatch.populate('initiator').populate('target').execPopulate();
 
       response.data = createdMatch;
       response.details = `<@${foundInitiator.slackId}> has challenged <@${foundTarget.slackId}> to a match!`;

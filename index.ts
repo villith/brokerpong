@@ -7,6 +7,7 @@ import express from 'express';
 import { getOngoingMatches } from './functions/getOngoingMatches';
 import { getPlayerInfo } from './functions/getPlayerInfo';
 import { register } from './functions/register';
+import { reportMatchResult } from './functions/reportMatchResult';
 
 dotenv.config();
 
@@ -44,4 +45,9 @@ app.post('/challenge-player', (req, res) => {
 app.post('/challenge-response', (req, res) => {
   console.log('[challenge-response]');
   challengeResponse(req, res);
+});
+
+app.post('/report-match-result', (req, res) => {
+  console.log('[report-match-result]');
+  reportMatchResult(req, res);
 });

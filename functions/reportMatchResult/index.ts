@@ -17,7 +17,7 @@ const reportMatchResult = async (req: Request, res: Response) => {
     const { body: { matchId, slackId, myScore, opponentScore } } = req;
     const ongoingMatches = await MatchModel.find({
       status: {
-        $in: ['accepted', 'pending'],
+        $in: ['accepted'],
       },
     })
       .populate('initiator')
@@ -31,16 +31,29 @@ const reportMatchResult = async (req: Request, res: Response) => {
       const canReport = p1.slackId === slackId || p2.slackId === slackId;
       if (canReport) {
         const initiatorScore = p1.slackId === slackId ? myScore : opponentScore;
-        const targetScore = p1.slackId === slackId ? myScore : opponentScore;
+        const targetScore = p2.slackId === slackId ? myScore : opponentScore;
         
+        console.log(match);
+        console.log(matchId);
         await ResultModel.create({
-          match: matchId,
+          match: match._id,
           initiatorScore,
           targetScore,
         });
+        await match.update({
+          status: 'completed',
+          completedAt: new Date(),
+        });
+
+        response.details = 'Your match result has been submitted.';
+
+        return res.json(response);
       }
     }
-    return res.json({ placeholder: `hello this is reportMatchResult` });
+    response.result = 'error';
+    response.error = 'There are no ongoing matches to submit a result for.';
+    response.details = 'placeholder';
+    return res.json(response);
   } catch (err) {
     response.result = 'error';
     response.error = err.message;
