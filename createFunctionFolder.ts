@@ -28,7 +28,8 @@ const buildPackageJson = () => (JSON.stringify({
   },
   devDependencies: {
     '@types/express': '^4.17.1',
-    '@types/node': '^12.7.5'
+    '@types/node': '^12.7.5',
+    '@types/mongoose': '^5.5.6'
   }  
 }, null, 2));
 

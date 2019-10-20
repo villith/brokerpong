@@ -1,5 +1,5 @@
 {
-  "name": "report-match-result",
+  "name": "get-match-history",
   "version": "0.0.1",
   "scripts": {
     "copy-configs": "cp -rf package.json .npmrc lib",

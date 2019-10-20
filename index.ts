@@ -4,6 +4,7 @@ import { challengeResponse } from './functions/challengeResponse';
 import { changeNickname } from './functions/changeNickname';
 import dotenv from 'dotenv';
 import express from 'express';
+import { getMatchHistory } from './functions/getMatchHistory';
 import { getOngoingMatches } from './functions/getOngoingMatches';
 import { getPlayerInfo } from './functions/getPlayerInfo';
 import { register } from './functions/register';
@@ -13,6 +14,13 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3005;
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS,POST,PUT,DELETE');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
 
 app.listen(PORT)
 console.log('listening on port ', PORT);
@@ -50,4 +58,9 @@ app.post('/challenge-response', (req, res) => {
 app.post('/report-match-result', (req, res) => {
   console.log('[report-match-result]');
   reportMatchResult(req, res);
+});
+
+app.get('/get-match-history', (req, res) => {
+  console.log('[get-match-history]');
+  getMatchHistory(req, res);
 });

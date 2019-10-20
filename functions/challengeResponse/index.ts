@@ -8,19 +8,22 @@ dotenv.config();
 (async () => { await connection(process.env.MONGO_URL!) })();
 
 const challengeResponse = async (req: Request, res: Response) => {
-  const response: IActionResponse = {
+  const response: IActionResponse<{ announcement: string }> = {
     result: 'success',
     details: '',
   };
 
   try {
     const { matchId, type, slackId } = req.body;
-    const match = await MatchModel.findById(matchId).populate('target');
+    const match = await MatchModel.findById(matchId)
+      .populate('initiator')
+      .populate('target');
+      
     if (match) {
-      console.log('match exists');
       if (match.status !== 'pending') {
         throw new Error(`Match has already been ${match.status}`);
       }
+      const initiator = match.initiator as Player;
       const target = match.target as Player;
       if (target.slackId !== slackId) {
         throw new Error(`You cannot accept or decline a challenge for other players.`);
@@ -38,10 +41,13 @@ const challengeResponse = async (req: Request, res: Response) => {
         status: newStatus,
         [`${newStatus}At`]: new Date(),
       });
+
+      response.details = `You have ${newStatus} this match.`;
       
-      response.details = `Match has been ${newStatus}`;
+      response.data = {
+        announcement: `<@${initiator.slackId}> your match has been ${newStatus}!`,
+      };
       
-      console.log('returning response');
       return res.json(response);
     }
     throw new Error(`Match with id: ${matchId} could not be found.`);

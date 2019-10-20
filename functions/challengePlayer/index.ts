@@ -1,6 +1,7 @@
 import { IActionResponse, Match, MatchModel, PlayerModel, connection } from '@team-scott/pong-domain';
 import { Request, Response } from 'express';
 
+import { buildPlayerName } from '../helpers';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -50,7 +51,7 @@ const challengePlayer = async (req: Request, res: Response) => {
       createdMatch = await createdMatch.populate('initiator').populate('target').execPopulate();
 
       response.data = createdMatch;
-      response.details = `<@${foundInitiator.slackId}> has challenged <@${foundTarget.slackId}> to a match!`;
+      response.details = `${buildPlayerName(foundInitiator)} has challenged ${buildPlayerName(foundTarget)} to a match!`;
 
       return res.json(response);
     }
