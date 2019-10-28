@@ -1,4 +1,4 @@
-import { IActionResponse, IEloChange, MatchModel, Player, PlayerModel, connection } from '@team-scott/pong-domain';
+import { IActionResponse, IEloChange, MatchModel, Player, PlayerModel, ResultModel, connection } from '@team-scott/pong-domain';
 import { Request, Response } from 'express';
 
 import dotenv from 'dotenv';
@@ -27,7 +27,7 @@ const reportMatchResult = async (req: Request, res: Response) => {
   };
 
   try {
-    const { body: { slackId, myScore, opponentScore } } = req;
+    const { body: { slackId, matchResult } } = req;
     const ongoingMatches = await MatchModel.find({
       status: {
         $in: ['accepted'],
@@ -43,53 +43,72 @@ const reportMatchResult = async (req: Request, res: Response) => {
       const p1 = match.initiator as Player;
       const p2 = match.target as Player;
       const canReport = p1.slackId === slackId || p2.slackId === slackId;
-      if (canReport) {
-        const initiatorScore = p1.slackId === slackId ? myScore : opponentScore;
-        const targetScore = p2.slackId === slackId ? myScore : opponentScore;
+      const roles: Record<string, Player> = {};
 
-        const initiatorElo = updateRating(
-          getExpected(p1.elo, p2.elo),
-          initiatorScore > targetScore ? 1 : 0,
-          p1.elo,
+      roles.submitter = slackId === p1.slackId ? p1 : p2; // Who submitted the match
+      roles.otherPlayer = slackId === p1.slackId ? p2 : p1;
+      
+      roles.winner = matchResult === 'win' ? roles.submitter : roles.otherPlayer;
+      roles.loser = roles.otherPlayer.slackId === roles.winner.slackId ? roles.submitter : roles.otherPlayer;
+      
+      if (canReport) {
+        const winnerElo = updateRating(
+          getExpected(roles.winner.elo, roles.loser.elo),
+          1,
+          roles.winner.elo,
         );
 
-        const targetElo = updateRating(
-          getExpected(p2.elo, p1.elo),
-          targetScore > initiatorScore ? 1 : 0,
-          p2.elo,
+        const loserElo = updateRating(
+          getExpected(roles.loser.elo, roles.winner.elo),
+          0,
+          roles.loser.elo,
         );
 
       
         await MatchModel.updateOne({
           _id: match._id,
         }, {
-          initiatorScore,
-          targetScore,
+          winner: roles.winner._id,
+          loser: roles.loser._id,
           status: 'completed',
           completedAt: new Date(),
         });
 
+        await ResultModel.create({
+          match: match._id,
+          winner: roles.winner._id,
+          loser: roles.loser._id,
+          winnerElos: {
+            start: roles.winner.elo,
+            end: winnerElo,
+          },
+          loserElos: {
+            start: roles.loser.elo,
+            end: loserElo,
+          },
+        })
+
         await Promise.all([
           PlayerModel.updateOne({ 
-            _id: p1._id,
+            _id: roles.winner._id,
           }, {
-            elo: initiatorElo,
+            elo: winnerElo,
           }),
           PlayerModel.updateOne({
-            _id: p2._id,
+            _id: roles.loser._id,
           }, {
-            elo: targetElo,
+            elo: loserElo,
           }),
         ]);
 
         const eloChangeResult = {} as IEloChange;
-        eloChangeResult.initiator = Object.assign({}, p1, {
-          originalElo: p1.elo,
-          difference: initiatorElo - p1.elo,
+        eloChangeResult.winner = Object.assign({}, roles.winner, {
+          originalElo: roles.winner.elo,
+          difference: winnerElo - roles.winner.elo,
         });
-        eloChangeResult.target = Object.assign({}, p2, {
-          originalElo: p2.elo,
-          difference: targetElo - p2.elo,
+        eloChangeResult.loser = Object.assign({}, roles.loser, {
+          originalElo: roles.loser.elo,
+          difference: loserElo - roles.loser.elo,
         });
         response.details = 'Your match result has been submitted.';
         response.data = eloChangeResult;

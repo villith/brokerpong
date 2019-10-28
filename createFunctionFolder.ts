@@ -24,12 +24,14 @@ const buildPackageJson = () => (JSON.stringify({
     compile: 'tsc && npm run copy-configs'
   },
   dependencies: {
-    'typescript': '^3.6.3'
+    'moment': '^2.24.0',
+    'typescript': '^3.6.3',
   },
   devDependencies: {
     '@types/express': '^4.17.1',
     '@types/node': '^12.7.5',
-    '@types/mongoose': '^5.5.6'
+    '@types/mongoose': '^5.5.6',
+    "@types/moment": "^2.13.0",
   }  
 }, null, 2));
 

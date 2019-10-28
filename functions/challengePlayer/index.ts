@@ -51,7 +51,7 @@ const challengePlayer = async (req: Request, res: Response) => {
       createdMatch = await createdMatch.populate('initiator').populate('target').execPopulate();
 
       response.data = createdMatch;
-      response.details = `${buildPlayerName(foundInitiator)} has challenged ${buildPlayerName(foundTarget)} to a match!`;
+      response.details = `${buildPlayerName(foundInitiator, { nicknameOnly: true })} has challenged ${buildPlayerName(foundTarget, { nicknameOnly: true })} to a match!`;
 
       return res.json(response);
     }

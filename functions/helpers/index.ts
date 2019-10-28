@@ -13,11 +13,23 @@ const updateRating = (
   current: number,
 ) => Math.round(current + K_FACTOR * (actual - expected));
 
-const buildPlayerName = (player: Player, mrkdwn = false) => {
+const buildPlayerName = (player: Player, {
+  mrkdwn = false,
+  nicknameOnly,
+} = {
+  mrkdwn: false,
+  nicknameOnly: false,
+}) => {
   let playerName = '';
   const { nickname, emojiFlair } = player;
   let { name } = player;
-  if (nickname) {
+  if (nicknameOnly && nickname) {
+    if (mrkdwn) {
+      playerName = `*${nickname}*`;
+    } else {
+      playerName = nickname;
+    }
+  } else if (nickname) {
     playerName = `${nickname}`;
     if (mrkdwn) {
       name = `*(${name})*`;

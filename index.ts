@@ -7,6 +7,7 @@ import express from 'express';
 import { getMatchHistory } from './functions/getMatchHistory';
 import { getOngoingMatches } from './functions/getOngoingMatches';
 import { getPlayerInfo } from './functions/getPlayerInfo';
+import { printStandings } from './functions/printStandings';
 import { register } from './functions/register';
 import { reportMatchResult } from './functions/reportMatchResult';
 
@@ -63,4 +64,9 @@ app.post('/report-match-result', (req, res) => {
 app.get('/get-match-history', (req, res) => {
   console.log('[get-match-history]');
   getMatchHistory(req, res);
+});
+
+app.get('/print-standings', (req, res) => {
+  console.log('[print-standings]');
+  printStandings(req, res);
 });
