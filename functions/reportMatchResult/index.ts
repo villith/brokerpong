@@ -93,11 +93,13 @@ const reportMatchResult = async (req: Request, res: Response) => {
             _id: roles.winner._id,
           }, {
             elo: winnerElo,
+            wins: roles.winner.wins + 1,
           }),
           PlayerModel.updateOne({
             _id: roles.loser._id,
           }, {
             elo: loserElo,
+            losses: roles.loser.losses + 1,
           }),
         ]);
 
